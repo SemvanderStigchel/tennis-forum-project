@@ -9,9 +9,9 @@ class Exercise extends Model
 {
     use HasFactory;
 
-    public function tag(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function tags(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->hasMany(Tag::class);
+        return $this->belongsToMany(Tag::class);
     }
 
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo

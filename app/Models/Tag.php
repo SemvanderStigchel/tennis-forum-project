@@ -9,8 +9,8 @@ class Tag extends Model
 {
     use HasFactory;
 
-    public function exercise(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function exercises(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->hasMany(Exercise::class);
+        return $this->belongsToMany(Exercise::class);
     }
 }
