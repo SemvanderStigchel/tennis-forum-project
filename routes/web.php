@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\CreateController;
+use App\Http\Controllers\ExerciseController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,10 +15,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
-
 Auth::routes();
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::get('/create-exercise', [CreateController::class, 'index'])->name('create');
+Route::resource('exercises', ExerciseController::class);

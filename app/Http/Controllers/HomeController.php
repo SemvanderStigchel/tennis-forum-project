@@ -25,7 +25,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $exercises = Exercise::all();
-        return view('home', compact('exercises'));
+        return view('home');
     }
 }
