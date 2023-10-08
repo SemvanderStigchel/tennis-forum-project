@@ -7,29 +7,17 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">{{ __('Exercises') }}</div>
-
-                    <div class="card-body">
-                        @if (session('status'))
-                            <div class="alert alert-success" role="alert">
-                                {{ session('status') }}
-                            </div>
-                        @endif
-
-                        @foreach($exercises as $exercise)
-                            <div class="exercise">
-                                <h2>{{$exercise->title}}</h2>
-                                <p>{{$exercise->description}}</p>
-                                @foreach($exercise->tags as $tag)
-                                    <p>{{$tag->name}}</p>
-                                @endforeach
-                            </div>
-                        @endforeach
-
-                        <a href="{{route('exercises.create')}}">Create pagina</a>
+                <h1>Exercises</h1>
+                @foreach($exercises as $exercise)
+                    <div class="exercise card">
+                        @include('partials.show-exercise')
+                        <div class="card-footer">
+                            <a href="{{route('exercises.show', ['exercise' => $exercise])}}">More Details</a>
+                        </div>
                     </div>
-                </div>
+                @endforeach
+
+                <a href="{{route('exercises.create')}}">Create page</a>
             </div>
         </div>
     </div>

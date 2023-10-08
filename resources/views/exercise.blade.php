@@ -1,16 +1,16 @@
 @extends('layouts.app')
 
-@section('page-title', 'Logged In')
+@section('page-title', $exercise->title)
 
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
+                <h1>Details</h1>
                 <div class="card">
-                    <div class="card-header">{{ __('Home') }}</div>
-
-                    <div class="card-body">
-                        <a href="{{route('exercises.index')}}">Go To Exercises</a>
+                    @include('partials.show-exercise')
+                    <div class="card-footer">
+                        <a href="{{route('exercises.index')}}">Go Back</a>
                     </div>
                 </div>
             </div>

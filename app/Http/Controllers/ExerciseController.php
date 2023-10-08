@@ -38,10 +38,15 @@ class ExerciseController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required',
+            'title' => 'required|max:50',
             'description' => 'required',
-            'image' => 'image'
+            'tag' => 'numeric'
         ]);
+
+        $exercise = new Exercise();
+        $exercise->title = $request->input('title');
+        $exercise->description = $request->input('description');
+        $exercise->user_id = \Auth::user()->id;
     }
 
     /**
@@ -49,7 +54,7 @@ class ExerciseController extends Controller
      */
     public function show(Exercise $exercise)
     {
-        //
+        return view('exercise', compact('exercise'));
     }
 
     /**
