@@ -40,13 +40,21 @@ class ExerciseController extends Controller
         $request->validate([
             'title' => 'required|max:50',
             'description' => 'required',
-            'tag' => 'numeric'
+            'tags' => 'required|exists:tags,id|min:1'
         ]);
 
         $exercise = new Exercise();
         $exercise->title = $request->input('title');
         $exercise->description = $request->input('description');
         $exercise->user_id = \Auth::user()->id;
+
+
+        if ($exercise->save())
+        {
+            $exercise->tags()->attach($request->input('tags'));
+        }
+
+        return redirect()->route('exercises.index');
     }
 
     /**
@@ -62,7 +70,8 @@ class ExerciseController extends Controller
      */
     public function edit(Exercise $exercise)
     {
-        //
+        $tags = Tag::all();
+        return view('edit', compact('exercise'), compact('tags'));
     }
 
     /**
@@ -78,6 +87,6 @@ class ExerciseController extends Controller
      */
     public function destroy(Exercise $exercise)
     {
-        //
+
     }
 }

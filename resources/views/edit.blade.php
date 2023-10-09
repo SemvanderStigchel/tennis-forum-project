@@ -1,20 +1,20 @@
 @extends('layouts.app')
 
-@section('page-title', 'Create exercise')
+@section('page-title', 'Edit exercise')
 
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <h1>Create a new exercise</h1>
-                <form action="{{route('exercises.store')}}" method="POST" enctype="multipart/form-data">
+                <form action="{{route('exercises.update', $exercise)}}" method="POST" enctype="multipart/form-data">
+                    @method('PUT')
                     @csrf
-
                     <label class="mt-2" for="title">Title*</label>
                     <input class="form-control @error('title') is-invalid @enderror" type="text"
                            id="title" name="title"
                            placeholder="Type the title of the exercise"
-                           value="{{old('title')}}">
+                           value="{{$exercise->title}}">
                     @error('title')
                     <div class="alert alert-danger">{{$message}}</div>
                     @enderror
@@ -23,7 +23,7 @@
                     <textarea class="form-control @error('description') is-invalid @enderror"
                               id="description"
                               name="description"
-                              placeholder="Type the description of the exercise.">{{old('description')}}</textarea>
+                              placeholder="Type the description of the exercise.">{{$exercise->description}}</textarea>
                     @error('description')
                     <div class="alert alert-danger">{{$message}}</div>
                     @enderror
@@ -33,7 +33,7 @@
                         @foreach($tags as $tag)
                             <div>
                                 <input class="form-check-input" type="checkbox" name="tags[]" id="tag{{$tag->id}}"
-                                       value="{{$tag->id}}">
+                                       value="{{$tag->id}}" @if($tag->id === $exercise->tags) checked @endif>
                                 <label class="form-check-label" for="tag{{$tag->id}}">{{$tag->name}}</label>
                             </div>
                         @endforeach
