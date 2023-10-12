@@ -79,7 +79,21 @@ class ExerciseController extends Controller
      */
     public function update(Request $request, Exercise $exercise)
     {
-        //
+        $request->validate([
+            'title' => 'required|max:50',
+            'description' => 'required',
+            'tags' => 'required|exists:tags,id|min:1'
+        ]);
+
+        $exercise->title = $request->input('title');
+        $exercise->description = $request->input('description');
+
+        if ($exercise->save())
+        {
+            $exercise->tags()->attach($request->input('tags'));
+        }
+
+        return redirect()->route('exercises.index');
     }
 
     /**
