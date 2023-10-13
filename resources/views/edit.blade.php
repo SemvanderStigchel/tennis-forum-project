@@ -6,7 +6,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <h1>Create a new exercise</h1>
+                <h1>Edit exercise '{{$exercise->title}}'</h1>
                 <form action="{{route('exercises.update', $exercise)}}" method="POST" enctype="multipart/form-data">
                     @method('PUT')
                     @csrf
@@ -16,6 +16,14 @@
                            placeholder="Type the title of the exercise"
                            value="{{$exercise->title}}">
                     @error('title')
+                    <div class="alert alert-danger">{{$message}}</div>
+                    @enderror
+
+                    <label class="mt-2" for="subtitle">Subtitle*</label>
+                    <textarea class="form-control @error('subtitle') is-invalid @enderror"
+                              id="subtitle" name="subtitle"
+                              placeholder="Type the subtitle of the exercise">{{$exercise->subtitle}}</textarea>
+                    @error('subtitle')
                     <div class="alert alert-danger">{{$message}}</div>
                     @enderror
 
@@ -39,7 +47,7 @@
                         @endforeach
                         @error('tags') <div class="alert alert-danger">{{$message}}</div> @enderror
                     </div>
-                    <input class="btn btn-primary mt-3" type="submit" value="Create Exercise">
+                    <input class="btn btn-primary mt-3" type="submit" value="Edit Exercise">
                 </form>
             </div>
             <a href="{{route('exercises.index')}}">Go Back</a>

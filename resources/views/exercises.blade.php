@@ -12,14 +12,14 @@
                     <div class="exercise card">
                         @include('partials.show-exercise')
                         <div class="card-footer ">
-                            <a href="{{route('exercises.show', $exercise)}}">More Details</a>
-                            <a href="{{route('exercises.destroy', $exercise)}}">Delete</a>
-                            <a href="{{route('exercises.edit', $exercise)}}">Edit</a>
+                            <a class="btn btn-primary" href="{{route('exercises.show', $exercise)}}">More Details</a>
+                            <a class="btn btn-primary" href="{{route('exercises.edit', $exercise)}}">Edit</a>
+                            <a class="btn btn-danger" href="{{route('exercises.destroy', $exercise)}}">Delete</a>
                         </div>
                     </div>
                 @endforeach
 
-                <a href="{{route('exercises.create')}}">Create page</a>
+                <a class="btn btn-primary" href="{{route('exercises.create')}}">Create page</a>
             </div>
         </div>
     </div>

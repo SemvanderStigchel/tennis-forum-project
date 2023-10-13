@@ -39,12 +39,14 @@ class ExerciseController extends Controller
     {
         $request->validate([
             'title' => 'required|max:50',
+            'subtitle' => 'required|max:255',
             'description' => 'required',
             'tags' => 'required|exists:tags,id|min:1'
         ]);
 
         $exercise = new Exercise();
         $exercise->title = $request->input('title');
+        $exercise->subtitle = $request->input('subtitle');
         $exercise->description = $request->input('description');
         $exercise->user_id = \Auth::user()->id;
 
@@ -81,15 +83,18 @@ class ExerciseController extends Controller
     {
         $request->validate([
             'title' => 'required|max:50',
+            'subtitle' => 'required|max:255',
             'description' => 'required',
             'tags' => 'required|exists:tags,id|min:1'
         ]);
 
         $exercise->title = $request->input('title');
+        $exercise->subtitle = $request->input('subtitle');
         $exercise->description = $request->input('description');
 
         if ($exercise->save())
         {
+            $exercise->tags()->detach();
             $exercise->tags()->attach($request->input('tags'));
         }
 
@@ -101,6 +106,11 @@ class ExerciseController extends Controller
      */
     public function destroy(Exercise $exercise)
     {
-
+        if (\Auth::user()->id === $exercise->user_id)
+        {
+            $exercise->tags()->detach();
+            Exercise::where('id'=== $exercise->id)->delete();
+        }
+        return redirect()->route('exercises.index');
     }
 }

@@ -19,11 +19,19 @@
                     <div class="alert alert-danger">{{$message}}</div>
                     @enderror
 
+                    <label class="mt-2" for="subtitle">Subtitle*</label>
+                    <textarea class="form-control @error('subtitle') is-invalid @enderror"
+                              id="subtitle" name="subtitle"
+                              placeholder="Type the subtitle of the exercise">{{old('subtitle')}}</textarea>
+                    @error('subtitle')
+                    <div class="alert alert-danger">{{$message}}</div>
+                    @enderror
+
                     <label class="mt-2" for="description">Description*</label>
                     <textarea class="form-control @error('description') is-invalid @enderror"
                               id="description"
                               name="description"
-                              placeholder="Type the description of the exercise.">{{old('description')}}</textarea>
+                              placeholder="Type the description of the exercise">{{old('description')}}</textarea>
                     @error('description')
                     <div class="alert alert-danger">{{$message}}</div>
                     @enderror
