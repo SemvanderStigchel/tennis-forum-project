@@ -30,7 +30,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
-
+                        <a class="btn btn-primary" href="{{route('exercises.create')}}">Create exercise</a>
                     </ul>
 
                     <!-- Right Side Of Navbar -->

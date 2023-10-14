@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Exercise;
 use App\Models\Tag;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ExerciseController extends Controller
@@ -109,7 +110,7 @@ class ExerciseController extends Controller
         if (\Auth::user()->id === $exercise->user_id)
         {
             $exercise->tags()->detach();
-            Exercise::where('id'=== $exercise->id)->delete();
+            Exercise::where('id', $exercise->id)->delete();
         }
         return redirect()->route('exercises.index');
     }

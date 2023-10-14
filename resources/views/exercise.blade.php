@@ -23,7 +23,7 @@
                         </div>
                     </div>
                     <div class="card-footer">
-                        <a href="{{route('exercises.index')}}">Go Back</a>
+                        <a class="btn btn-primary" href="{{route('exercises.index')}}">Go Back</a>
                     </div>
                 </div>
             </div>
