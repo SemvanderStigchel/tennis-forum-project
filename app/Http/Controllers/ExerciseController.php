@@ -52,8 +52,7 @@ class ExerciseController extends Controller
         $exercise->user_id = \Auth::user()->id;
 
 
-        if ($exercise->save())
-        {
+        if ($exercise->save()) {
             $exercise->tags()->attach($request->input('tags'));
         }
 
@@ -73,8 +72,12 @@ class ExerciseController extends Controller
      */
     public function edit(Exercise $exercise)
     {
-        $tags = Tag::all();
-        return view('edit', compact('exercise'), compact('tags'));
+        if (\Auth::user()->id === $exercise->user_id) {
+            $tags = Tag::all();
+            return view('edit', compact('exercise'), compact('tags'));
+        }
+
+        return redirect()->route('exercises.index');
     }
 
     /**
@@ -93,8 +96,7 @@ class ExerciseController extends Controller
         $exercise->subtitle = $request->input('subtitle');
         $exercise->description = $request->input('description');
 
-        if ($exercise->save())
-        {
+        if ($exercise->save()) {
             $exercise->tags()->detach();
             $exercise->tags()->attach($request->input('tags'));
         }
@@ -107,11 +109,20 @@ class ExerciseController extends Controller
      */
     public function destroy(Exercise $exercise)
     {
-        if (\Auth::user()->id === $exercise->user_id)
-        {
+        if (\Auth::user()->id === $exercise->user_id) {
             $exercise->tags()->detach();
-            Exercise::where('id', $exercise->id)->delete();
+            Exercise::where('id', $exercise->id)->forceDelete();
         }
         return redirect()->route('exercises.index');
+    }
+
+    public function showAdmin ()
+    {
+        if (\Auth::user()->role === 2)
+        {
+            $exercises = Exercise::with('user')->get();
+            return view('exercises-admin', compact('exercises'));
+        }
+        return view('home');
     }
 }

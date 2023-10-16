@@ -55,6 +55,10 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    @if(Auth::user()->role === 2)
+                                        <a href="{{route('show-admin')}}" class="dropdown-item">All exercises</a>
+                                    @endif
+                                    <a href="{{route('profile.index')}}" class="dropdown-item">Profile</a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

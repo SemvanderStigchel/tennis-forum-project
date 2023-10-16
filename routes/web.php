@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ExerciseController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,5 +19,9 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
+Route::resource('profile', UserController::class);
+
+Route::get('/exercises/admin', [ExerciseController::class, 'showAdmin'])->name('show-admin');
 
 Route::resource('exercises', ExerciseController::class);
