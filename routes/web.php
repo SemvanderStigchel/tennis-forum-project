@@ -24,4 +24,6 @@ Route::resource('profile', UserController::class);
 
 Route::get('/exercises/admin', [ExerciseController::class, 'showAdmin'])->name('show-admin');
 
+Route::delete('exercises/admin/{id}', [ExerciseController::class, 'softDeleteOrRestore'])->name('exercises.delete');
+
 Route::resource('exercises', ExerciseController::class);

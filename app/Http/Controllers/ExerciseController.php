@@ -120,8 +120,23 @@ class ExerciseController extends Controller
     {
         if (\Auth::user()->role === 2)
         {
-            $exercises = Exercise::with('user')->get();
+            $exercises = Exercise::with('user')->withTrashed()->get();
             return view('exercises-admin', compact('exercises'));
+        }
+        return view('home');
+    }
+
+    public function softDeleteOrRestore(Exercise $exercise, Request $request)
+    {
+        if (\Auth::user()->role === 2)
+        {
+            if ($request->input('on') === 1) {
+                $exercise->restore();
+                return redirect(route('show-admin'));
+            } elseif ($request->input('on') === null) {
+                Exercise::where('id', $exercise->id)->delete();
+                return redirect(route('show-admin'));
+            }
         }
         return view('home');
     }
