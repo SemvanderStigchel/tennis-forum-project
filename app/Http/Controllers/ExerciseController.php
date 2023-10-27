@@ -20,8 +20,10 @@ class ExerciseController extends Controller
 
     public function index()
     {
+        $tags = Tag::all();
+        $filters = [];
         $exercises = Exercise::with('tags')->get();
-        return view('exercises', compact('exercises'));
+        return view('exercises', compact('exercises', 'tags', 'filters'));
     }
 
     /**
@@ -111,33 +113,62 @@ class ExerciseController extends Controller
     {
         if (\Auth::user()->id === $exercise->user_id) {
             $exercise->tags()->detach();
-            Exercise::where('id', $exercise->id)->forceDelete();
+            $exercise->forceDelete();
         }
         return redirect()->route('exercises.index');
     }
 
-    public function showAdmin ()
+    public function showAdmin()
     {
-        if (\Auth::user()->role === 2)
-        {
+        if (\Auth::user()->role === 2) {
             $exercises = Exercise::with('user')->withTrashed()->get();
             return view('exercises-admin', compact('exercises'));
         }
         return view('home');
     }
 
-    public function softDeleteOrRestore(Exercise $exercise, Request $request)
+    public function softDeleteOrRestore(int $id, Request $request)
     {
-        if (\Auth::user()->role === 2)
-        {
-            if ($request->input('on') === 1) {
+        if (\Auth::user()->role === 2) {
+            $exercise = Exercise::withTrashed()->find($id);
+            if ($exercise->trashed()) {
                 $exercise->restore();
                 return redirect(route('show-admin'));
-            } elseif ($request->input('on') === null) {
-                Exercise::where('id', $exercise->id)->delete();
+            } else {
+                $exercise->delete();
                 return redirect(route('show-admin'));
             }
         }
         return view('home');
+    }
+
+    public function search(Request $request)
+    {
+        $tags = Tag::all();
+        $request->validate([
+            'search' => 'max:255',
+            'filters' => 'exists:tags,id'
+        ]);
+        $filters = $request->input('filters');
+
+        if (collect($filters)->count() === 0) {
+            $exercises = Exercise::where('title', 'LIKE', '%' . $request->input('search') . '%')
+                ->orWhere('subtitle', 'LIKE', '%' . $request->input('search') . '%')->get();
+            return view('exercises', compact('exercises', 'tags', 'filters'));
+        } elseif ($request->input('search') === null) {
+            $exercises = Exercise::whereHas('tags', function ($query) use ($filters) {
+                $query->whereIn('tag_id', $filters);
+            })->get();
+            return view('exercises', compact('exercises', 'tags', 'filters'));
+        } else {
+            $exercises = Exercise::whereHas('tags', function ($query) use ($filters) {
+                $query->whereIn('tag_id', $filters);
+            });
+
+            $exercises->where('title', 'LIKE', '%' . $request->input('search') . '%')
+                ->orWhere('subtitle', 'LIKE', '%' . $request->input('search') . '%')
+                ->get();
+            return view('exercises', compact('exercises', 'tags', 'filters'));
+        }
     }
 }

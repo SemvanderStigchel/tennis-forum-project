@@ -30,6 +30,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
+                        <a class="btn text-primary" href="{{route('exercises.index')}}">All exercises</a>
                         <a class="btn btn-primary" href="{{route('exercises.create')}}">Create exercise</a>
                     </ul>
 
@@ -58,7 +59,7 @@
                                     @if(Auth::user()->role === 2)
                                         <a href="{{route('show-admin')}}" class="dropdown-item">All exercises</a>
                                     @endif
-                                    <a href="{{route('profile.index')}}" class="dropdown-item">Profile</a>
+                                    <a href="{{route('profile.edit')}}" class="dropdown-item">Profile</a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

@@ -14,11 +14,10 @@
                             <strong>At:</strong> {{$exercise->created_at}}
                             <form id="form" action="{{route('exercises.delete', $exercise)}}" method="POST">
                                 @csrf
-                                @method('DELETE')
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input checkbox" type="checkbox" role="switch"
-                                           id="flexSwitchCheckDefault" name="on" @if(!$exercise->trashed()) checked @endif value="1">
-                                    <label class="form-check-label" for="flexSwitchCheckDefault">Exercise Off/On</label>
+                                    <label class="form-label">Exercise status:@if(!$exercise->trashed()) <strong>On</strong> @else <strong>Off</strong> @endif</label>
+                                    <button class="form-control btn @if(!$exercise->trashed()) btn-danger @else btn-primary @endif" type="submit"
+                                            name="on">Switch @if(!$exercise->trashed()) off @else on @endif</button>
                                 </div>
                             </form>
                         </li>

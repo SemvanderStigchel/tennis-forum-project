@@ -1,24 +1,12 @@
 import './bootstrap';
 window.addEventListener('load', init);
 
-let form;
 function init(){
-    let checkboxes = document.querySelectorAll('.checkbox');
-    form = document.querySelector('#form');
-
-    let deleteButtons = document.querySelectorAll('.btn-danger');
+    let deleteButtons = document.querySelectorAll('.delete');
 
     deleteButtons.forEach(function (deleteButton) {
         deleteButton.addEventListener('click', confirmDeleteHandler);
     })
-
-    checkboxes.forEach(function (checkbox) {
-        checkbox.addEventListener('change', submitOnChange);
-    })
-}
-
-function submitOnChange(){
-        form.submit();
 }
 
 function confirmDeleteHandler (e)
