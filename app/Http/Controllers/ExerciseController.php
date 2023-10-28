@@ -120,26 +120,20 @@ class ExerciseController extends Controller
 
     public function showAdmin()
     {
-        if (\Auth::user()->role === 2) {
-            $exercises = Exercise::with('user')->withTrashed()->get();
-            return view('exercises-admin', compact('exercises'));
-        }
-        return view('home');
+        $exercises = Exercise::with('user')->withTrashed()->get();
+        return view('exercises-admin', compact('exercises'));
     }
 
     public function softDeleteOrRestore(int $id, Request $request)
     {
-        if (\Auth::user()->role === 2) {
-            $exercise = Exercise::withTrashed()->find($id);
-            if ($exercise->trashed()) {
-                $exercise->restore();
-                return redirect(route('show-admin'));
-            } else {
-                $exercise->delete();
-                return redirect(route('show-admin'));
-            }
+        $exercise = Exercise::withTrashed()->find($id);
+        if ($exercise->trashed()) {
+            $exercise->restore();
+            return redirect(route('show-admin'));
+        } else {
+            $exercise->delete();
+            return redirect(route('show-admin'));
         }
-        return view('home');
     }
 
     public function search(Request $request)
@@ -170,5 +164,10 @@ class ExerciseController extends Controller
                 ->get();
             return view('exercises', compact('exercises', 'tags', 'filters'));
         }
+    }
+
+    public function notEnoughExercises()
+    {
+        return view('not-enough-exercises');
     }
 }

@@ -25,10 +25,12 @@ Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit')
 
 Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
 
-Route::get('/exercises/admin', [ExerciseController::class, 'showAdmin'])->name('show-admin');
+Route::get('/not-enough-exercises', [ExerciseController::class, 'notEnoughExercises'])->name('not-enough-exercises');
 
-Route::post('exercises/admin/{id}', [ExerciseController::class, 'softDeleteOrRestore'])->name('exercises.delete');
+Route::get('/exercises/admin', [ExerciseController::class, 'showAdmin'])->name('show-admin')->middleware('admin');
 
-Route::get('/exercises/search', [ExerciseController::class, 'search'])->name('exercises.search');
+Route::post('exercises/admin/{id}', [ExerciseController::class, 'softDeleteOrRestore'])->name('exercises.delete')->middleware('admin');
+
+Route::get('/exercises/search', [ExerciseController::class, 'search'])->name('exercises.search')->middleware('exercisecount');
 
 Route::resource('exercises', ExerciseController::class);
